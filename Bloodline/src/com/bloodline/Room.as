@@ -31,6 +31,7 @@ package com.bloodline
 		private var _wallGroup:FlxGroup = new FlxGroup();
 		private var _enemyGroup:FlxGroup = new FlxGroup();
 		private var _powerupGroup:FlxGroup = new FlxGroup();
+		private var _symbolGroup:FlxGroup = new FlxGroup();
 		
 		private var _doorsOpenTimer:TimeNotifier = new TimeNotifier(1);
 		private var _powerupFallTimer:TimeNotifier = new TimeNotifier(1);
@@ -72,6 +73,7 @@ package com.bloodline
 			this.add(_genTxt);
 			
 			this.add(_wallGroup);
+			this.add(_symbolGroup);
 			this.add(_doorGroup);
 			this.add(_enemyGroup);
 			this.add(_player);
@@ -118,6 +120,32 @@ package com.bloodline
 			_directionChoices = [DecisionData.DEF_CHOICE, DecisionData.SPD_CHOICE, DecisionData.STR_CHOICE];
 			FlxU.shuffle(_directionChoices, 12);
 			_directionChoices.splice(_entranceDir, 0, DecisionData.NO_CHOICE);
+			
+			for (var i:uint = 0; i < 4; i++ ) {
+				if (_directionChoices[i] != DecisionData.NO_CHOICE) {
+					var p:Powerup = new Powerup(_directionChoices[i]);
+					switch(i) {
+						case DIR_NORTH: 
+							p.x = 7 * Bloodline.TILESIZE;
+							p.y = 0;
+							break;
+						case DIR_EAST: 
+							p.x = 9 * Bloodline.TILESIZE;
+							p.y = 5 * Bloodline.TILESIZE;;
+							break;
+						case DIR_SOUTH: 
+							p.x = 3 * Bloodline.TILESIZE;
+							p.y = 7 * Bloodline.TILESIZE;;
+							break;
+						case DIR_WEST: 
+							p.x = 0;
+							p.y = 2 * Bloodline.TILESIZE;;
+							break;
+					}
+					p.play("symbol");
+					_symbolGroup.add(p);
+				}
+			}
 		}
 		
 		private function setRoomPieces() :void {
@@ -245,6 +273,7 @@ package com.bloodline
 		private function startPowerup():void {
 			if(_latestChoice != DecisionData.NO_CHOICE){
 				_powerup = new Powerup(_latestChoice);
+				_powerup.play("artifact");
 				_powerup.InitFalling(3 * Bloodline.TILESIZE, 6 * Bloodline.TILESIZE);
 				_powerupGroup.add(_powerup);
 			}

@@ -20,7 +20,9 @@ package com.bloodline
 		{
 			super();
 			
-			loadGraphic(theGraphics[powerupType]);
+			loadGraphic(theGraphics[powerupType], true, true, 16, 16);
+			addAnimation("symbol", [1]);
+			addAnimation("artifact", [0]);
 		}
 	}
 }
