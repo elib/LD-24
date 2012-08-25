@@ -16,12 +16,14 @@ package com.bloodline
 			FlxG.scores[Bloodline.HITPOINT_PLACE] = Bloodline.STARTING_HITPOINTS;
 			
 			if (FlxG.scores[Bloodline.HISTORY_PLACE] == null) {
+				FlxG.log("Starting new game from scratch");
 				//if no histories, init to blank
 				FlxG.scores[Bloodline.HISTORY_PLACE] = new Array();
 			}
 			
 			//add new history entry
-			(FlxG.scores[Bloodline.HISTORY_PLACE] as Array).push();
+			var newLength:int = (FlxG.scores[Bloodline.HISTORY_PLACE] as Array).push(new DecisionData());
+			FlxG.log("Now beginning: parallel generation #" + newLength);
 		}
 		
 		override public function create():void 
