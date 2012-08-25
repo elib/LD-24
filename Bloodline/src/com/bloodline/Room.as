@@ -30,6 +30,8 @@ package com.bloodline
 			_genTxt.text = "GEN " + FlxG.scores[Bloodline.GENERATION_PLACE];
 			_genTxt.setFormat(null, 8);
 			this.add(_genTxt);
+			
+			setRoomPieces();
 		}
 		
 		private function calculateGeneration() : void {
@@ -41,6 +43,32 @@ package com.bloodline
 				
 				FlxG.scores[Bloodline.GENERATION_PLACE] += 1;
 			}
+		}
+		
+		private function setRoomPieces() :void {
+			//top left
+			var wallPiece:WallPiece = new WallPiece(0, 0, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
+			this.add(wallPiece);
+			wallPiece = new WallPiece(0, Bloodline.TILESIZE, Bloodline.TILESIZE, 2 * Bloodline.TILESIZE);
+			this.add(wallPiece);
+			
+			//top right
+			wallPiece = new WallPiece(6 * Bloodline.TILESIZE, 0, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
+			this.add(wallPiece);
+			wallPiece = new WallPiece(9 * Bloodline.TILESIZE, Bloodline.TILESIZE, Bloodline.TILESIZE, 2*Bloodline.TILESIZE);
+			this.add(wallPiece);
+			
+			//bottom left
+			wallPiece = new WallPiece(0, 7 * Bloodline.TILESIZE, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
+			this.add(wallPiece);
+			wallPiece = new WallPiece(0, 5 * Bloodline.TILESIZE, Bloodline.TILESIZE, 3 * Bloodline.TILESIZE);
+			this.add(wallPiece);
+			
+			//bottom right
+			wallPiece = new WallPiece(6 * Bloodline.TILESIZE, 7 * Bloodline.TILESIZE, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
+			this.add(wallPiece);
+			wallPiece = new WallPiece(9 * Bloodline.TILESIZE, 5 * Bloodline.TILESIZE, Bloodline.TILESIZE, 2*Bloodline.TILESIZE);
+			this.add(wallPiece);
 		}
 	}
 }

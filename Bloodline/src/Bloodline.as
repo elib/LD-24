@@ -7,7 +7,7 @@ package
  
 	public class Bloodline extends FlxGame
 	{		
-		public static const TILESIZE:int = 16;
+		public static const TILESIZE:int = 32;
 		
 		public static const GENERATION_PLACE:int = 0;
 		public static const STRENGTH_PLACE:int = 1;
