@@ -15,6 +15,9 @@ package com.bloodline
 		private var _latestChoice:uint;
 		
 		private var _doorGroup:FlxGroup = new FlxGroup();
+		private var _wallGroup:FlxGroup = new FlxGroup();
+		
+		private var _player:Player = new Player();
 		
 		public function Room(initialDir:uint, lastChoice:uint) 
 		{
@@ -29,11 +32,35 @@ package com.bloodline
 			
 			calculateGeneration();
 			
+			setRoomPieces();
+			spawn();
+			
 			_genTxt.text = "GEN " + FlxG.scores[Bloodline.GENERATION_PLACE];
-			_genTxt.setFormat(null, 8);
+			_genTxt.setFormat(null, 8, 0xff000000);
 			this.add(_genTxt);
 			
-			setRoomPieces();
+			this.add(_player);
+		}
+		
+		private function spawn():void {
+			switch(_entranceDir) {
+				case DIR_NORTH:
+					_player.x = FlxG.width / 2;
+					_player.y = 1.5 * Bloodline.TILESIZE;
+					break;
+				case DIR_SOUTH:
+					_player.x = FlxG.width / 2;
+					_player.y = FlxG.height - 1.5 * Bloodline.TILESIZE;
+					break;
+				case DIR_EAST:
+					_player.x = FlxG.width - 1.5 * Bloodline.TILESIZE;
+					_player.y = FlxG.height / 2;
+					break;
+				case DIR_WEST:
+					_player.x = 1.5 * Bloodline.TILESIZE;
+					_player.y = FlxG.height / 2;
+					break;
+			}
 		}
 		
 		private function calculateGeneration() : void {
@@ -50,34 +77,42 @@ package com.bloodline
 		private function setRoomPieces() :void {
 			//top left
 			var wallPiece:WallPiece = new WallPiece(0, 0, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			wallPiece = new WallPiece(0, Bloodline.TILESIZE, Bloodline.TILESIZE, 2 * Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			
 			//top right
 			wallPiece = new WallPiece(6 * Bloodline.TILESIZE, 0, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			wallPiece = new WallPiece(9 * Bloodline.TILESIZE, Bloodline.TILESIZE, Bloodline.TILESIZE, 2*Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			
 			//bottom left
 			wallPiece = new WallPiece(0, 7 * Bloodline.TILESIZE, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			wallPiece = new WallPiece(0, 5 * Bloodline.TILESIZE, Bloodline.TILESIZE, 3 * Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			
 			//bottom right
 			wallPiece = new WallPiece(6 * Bloodline.TILESIZE, 7 * Bloodline.TILESIZE, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			wallPiece = new WallPiece(9 * Bloodline.TILESIZE, 5 * Bloodline.TILESIZE, Bloodline.TILESIZE, 2*Bloodline.TILESIZE);
-			this.add(wallPiece);
+			_wallGroup.add(wallPiece);
 			
 			for (var i:uint = 0; i < 4; i++) {
 				var door:Doorway = new Doorway(i);
 				_doorGroup.add(door);
 			}
 			
+			this.add(_wallGroup);
 			this.add(_doorGroup);
+		}
+		
+		override public function update():void 
+		{
+			super.update();
+			FlxG.collide(_wallGroup, _player);
+			FlxG.collide(_doorGroup, _player);
 		}
 	}
 }

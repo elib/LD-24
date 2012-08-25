@@ -15,7 +15,7 @@ package com.bloodline
 		public function Doorway(direction:uint)
 		{
 			super();
-			
+			immovable = true;
 			init(direction);
 		}
 		
