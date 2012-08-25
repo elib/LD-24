@@ -22,7 +22,9 @@ package com.bloodline
 			}
 			
 			//add new history entry
-			var newLength:int = (FlxG.scores[Bloodline.HISTORY_PLACE] as Array).push(new DecisionData());
+			var lastDecision:DecisionData = new DecisionData();
+			var newLength:int = (FlxG.scores[Bloodline.HISTORY_PLACE] as Array).push(lastDecision);
+			FlxG.scores[Bloodline.LATEST_NODE_PLACE] = lastDecision;
 			FlxG.log("Now beginning: parallel generation #" + newLength);
 		}
 		

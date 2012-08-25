@@ -14,7 +14,9 @@ package
 		public static const DEFENSE_PLACE:int = 2;
 		public static const SPEED_PLACE:int = 3;
 		public static const HITPOINT_PLACE:int = 4;
+		
 		public static const HISTORY_PLACE:int = 15;
+		public static const LATEST_NODE_PLACE:int = 16;
 		
 		public static const STARTING_HITPOINTS:int = 10;
 		

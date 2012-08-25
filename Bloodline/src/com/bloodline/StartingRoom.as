@@ -6,12 +6,14 @@ package com.bloodline
 	{
 		public function StartingRoom() 
 		{
-			super();
-		}	
+			super(Room.DIR_NORTH, DecisionData.NO_CHOICE);
+		}
 		
 		override public function create():void 
 		{
 			super.create();
+			
+			
 		}
 	}
 }
