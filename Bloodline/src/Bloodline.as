@@ -2,6 +2,8 @@ package
 {
 	import org.flixel.*;
 	import com.bloodline.*;
+	import util.TimeNotifier;
+	
 	[SWF(width = "640", height = "512", backgroundColor = "#000000")]
 	[Frame(factoryClass = "Preloader")]
  
@@ -21,12 +23,14 @@ package
 		public static const STARTING_HITPOINTS:int = 10;
 		
 		public function Bloodline()
-		{			
-			
-			
+		{
 			super(320, 256, TitleState, 2);
-			
-			
+		}
+		
+		override protected function update():void 
+		{
+			super.update();
+			TimeNotifier.update();
 		}
 	}
 }

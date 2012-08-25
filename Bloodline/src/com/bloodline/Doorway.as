@@ -9,6 +9,7 @@ package com.bloodline
 			if (open != _isOpen) {
 				_isOpen = open;
 				this.visible = !open;
+				this.solid = this.visible;
 			}
 		}
 		

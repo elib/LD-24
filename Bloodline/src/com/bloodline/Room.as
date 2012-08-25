@@ -1,12 +1,13 @@
 package com.bloodline 
 {
 	import org.flixel.*;
+	import util.TimeNotifier;
 	public class Room extends FlxState
 	{
 		public static const DIR_NORTH:uint 		= 0;
 		public static const DIR_EAST:uint 		= 1;
-		public static const DIR_WEST:uint 		= 2;
-		public static const DIR_SOUTH:uint 		= 3;
+		public static const DIR_SOUTH:uint 		= 2;
+		public static const DIR_WEST:uint 		= 3;
 		
 		private var _genTxt:FlxText = new FlxText(0, 0, 50);
 		
@@ -17,7 +18,19 @@ package com.bloodline
 		private var _doorGroup:FlxGroup = new FlxGroup();
 		private var _wallGroup:FlxGroup = new FlxGroup();
 		
+		private var _doorsOpenTimer:TimeNotifier = new TimeNotifier(1);
+		
 		private var _player:Player = new Player();
+		
+		private var _started:Boolean = false;
+		
+		private function set allDoorsOpen(shouldOpen:Boolean) : void {
+			for (var i:uint = 0; i < 4; i++) {
+				(_doorGroup.members[i] as Doorway).Open = shouldOpen;
+			}
+			
+			(_doorGroup.members[_entranceDir] as Doorway).Open = false;
+		}
 		
 		public function Room(initialDir:uint, lastChoice:uint) 
 		{
@@ -40,6 +53,9 @@ package com.bloodline
 			this.add(_genTxt);
 			
 			this.add(_player);
+			
+			_doorsOpenTimer.NotifyMe(0, true);
+			allDoorsOpen = true;
 		}
 		
 		private function spawn():void {
@@ -61,6 +77,9 @@ package com.bloodline
 					_player.y = FlxG.height / 2;
 					break;
 			}
+			
+			_player.x -= _player.width / 2;
+			_player.y -= _player.height / 2 ;
 		}
 		
 		private function calculateGeneration() : void {
@@ -111,6 +130,14 @@ package com.bloodline
 		override public function update():void 
 		{
 			super.update();
+			
+			if (!_started && _doorsOpenTimer.Notify) {
+				allDoorsOpen = false;
+				
+				_started = true;
+				_player.InterActive = true;
+			}
+			
 			FlxG.collide(_wallGroup, _player);
 			FlxG.collide(_doorGroup, _player);
 		}
