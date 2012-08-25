@@ -1,5 +1,7 @@
 package com.bloodline 
 {
+	import adobe.utils.CustomActions;
+	import flash.geom.Point;
 	import org.flixel.*;
 	import util.TimeNotifier;
 	public class Room extends FlxState
@@ -138,6 +140,8 @@ package com.bloodline
 			
 			this.add(_wallGroup);
 			this.add(_doorGroup);
+			this.add(_powerupGroup);
+			this.add(_enemyGroup);
 		}
 		
 		override public function update():void 
@@ -157,6 +161,7 @@ package com.bloodline
 					if (_enemyGroup.countLiving() <= 0) {
 						//win, move on
 						_state = POWERUP_STATE;
+						startPowerup();
 						_powerupFallTimer.NotifyMe(0, true);
 						_player.InterActive = false;
 					} else if (!_player.alive){
@@ -212,6 +217,14 @@ package com.bloodline
 			
 			if (room) {
 				FlxG.switchState(room);
+			}
+		}
+		
+		private function startPowerup():void {
+			if(_latestChoice != DecisionData.NO_CHOICE){
+				var p:Powerup = new Powerup(_latestChoice);
+				p.InitFalling(3 * Bloodline.TILESIZE, 6 * Bloodline.TILESIZE);
+				_powerupGroup.add(p);
 			}
 		}
 	}

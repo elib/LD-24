@@ -1,0 +1,25 @@
+package com.bloodline 
+{
+	import org.flixel.*;
+	
+	public class Powerup extends FlxSprite
+	{
+		[Embed(source = '../../../../Assets/Powerup1.png')] private static var ImgPowerup1:Class;
+		[Embed(source = '../../../../Assets/Powerup2.png')] private static var ImgPowerup2:Class;
+		
+		private static var theGraphics:Array = [ ImgPowerup1, ImgPowerup2 ];
+		
+		public function InitFalling(X:Number, Y:Number):void {
+			x = X - this.width / 2;
+			y = 0 - this.height;
+			this.solid = false;
+		}
+		
+		public function Powerup(powerupType:uint)
+		{
+			super();
+			
+			loadGraphic(theGraphics[powerupType]);
+		}
+	}
+}
