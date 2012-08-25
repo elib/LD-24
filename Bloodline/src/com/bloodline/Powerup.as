@@ -6,12 +6,13 @@ package com.bloodline
 	{
 		[Embed(source = '../../../../Assets/Powerup1.png')] private static var ImgPowerup1:Class;
 		[Embed(source = '../../../../Assets/Powerup2.png')] private static var ImgPowerup2:Class;
+		[Embed(source = '../../../../Assets/Powerup3.png')] private static var ImgPowerup3:Class;
 		
-		private static var theGraphics:Array = [ ImgPowerup1, ImgPowerup2 ];
+		private static var theGraphics:Array = [ ImgPowerup1, ImgPowerup2, ImgPowerup3 ];
 		
 		public function InitFalling(X:Number, Y:Number):void {
 			x = X - this.width / 2;
-			y = 0 - this.height;
+			y = Y - this.height;
 			this.solid = false;
 		}
 		

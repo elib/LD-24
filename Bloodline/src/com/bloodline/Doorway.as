@@ -46,11 +46,11 @@ package com.bloodline
 					x = 4 * Bloodline.TILESIZE;
 					y = 7 * Bloodline.TILESIZE;
 					break;
-				case Room.DIR_EAST:
+				case Room.DIR_WEST:
 					x = 0;
 					y = 3 * Bloodline.TILESIZE;
 					break;
-				case Room.DIR_WEST:
+				case Room.DIR_EAST:
 					x = 9 * Bloodline.TILESIZE;
 					y = 3 * Bloodline.TILESIZE;
 					break;

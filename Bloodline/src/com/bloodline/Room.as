@@ -35,6 +35,10 @@ package com.bloodline
 		private var _doorsOpenTimer:TimeNotifier = new TimeNotifier(1);
 		private var _powerupFallTimer:TimeNotifier = new TimeNotifier(1);
 		
+		private var _powerup:Powerup = null;
+		
+		private var _directionChoices:Array;
+		
 		private var _player:Player = new Player();
 		
 		private function set allDoorsOpen(shouldOpen:Boolean) : void {
@@ -67,7 +71,11 @@ package com.bloodline
 			_genTxt.setFormat(null, 8, 0xff000000);
 			this.add(_genTxt);
 			
+			this.add(_wallGroup);
+			this.add(_doorGroup);
+			this.add(_enemyGroup);
 			this.add(_player);
+			this.add(_powerupGroup);
 			
 			_doorsOpenTimer.NotifyMe(0, true);
 			allDoorsOpen = true;
@@ -106,6 +114,10 @@ package com.bloodline
 				
 				FlxG.scores[Bloodline.GENERATION_PLACE] += 1;
 			}
+			
+			_directionChoices = [DecisionData.DEF_CHOICE, DecisionData.SPD_CHOICE, DecisionData.STR_CHOICE];
+			FlxU.shuffle(_directionChoices, 12);
+			_directionChoices.splice(_entranceDir, 0, DecisionData.NO_CHOICE);
 		}
 		
 		private function setRoomPieces() :void {
@@ -137,11 +149,6 @@ package com.bloodline
 				var door:Doorway = new Doorway(i);
 				_doorGroup.add(door);
 			}
-			
-			this.add(_wallGroup);
-			this.add(_doorGroup);
-			this.add(_powerupGroup);
-			this.add(_enemyGroup);
 		}
 		
 		override public function update():void 
@@ -171,7 +178,14 @@ package com.bloodline
 				case POWERUP_STATE:
 					if (_powerupFallTimer.Notify) {
 						_state = COLLECT_STATE;
+						if (_powerup) {
+							_powerup.solid = true;
+						}
 						_player.InterActive = true;
+					} else {
+						if (_powerup) {
+							//animate
+						}
 					}
 					break;
 				case COLLECT_STATE:
@@ -197,6 +211,8 @@ package com.bloodline
 			
 			FlxG.collide(_wallGroup, _player);
 			FlxG.collide(_doorGroup, _player);
+			FlxG.collide(_enemyGroup, _player);
+			FlxG.collide(_powerupGroup, _player);
 			
 			if (wasState != _state) {
 				FlxG.log("State changed to: " + _state);
@@ -206,13 +222,13 @@ package com.bloodline
 		private function determineNextRoomAndGo():void {
 			var room:Room = null;
 			if (_player.x <= 0) {
-				room = new Room(DIR_EAST, DecisionData.NO_CHOICE);
+				room = new Room(DIR_EAST, _directionChoices[DIR_WEST]);
 			} else if (_player.x + _player.width >= FlxG.width) {
-				room = new Room(DIR_WEST, DecisionData.NO_CHOICE);
+				room = new Room(DIR_WEST, _directionChoices[DIR_EAST]);
 			} else if (_player.y <= 0) {
-				room = new Room(DIR_SOUTH, DecisionData.NO_CHOICE);
+				room = new Room(DIR_SOUTH, _directionChoices[DIR_NORTH]);
 			} else if (_player.y + _player.height >= FlxG.height) {
-				room = new Room(DIR_NORTH, DecisionData.NO_CHOICE);
+				room = new Room(DIR_NORTH, _directionChoices[DIR_SOUTH]);
 			}
 			
 			if (room) {
@@ -222,9 +238,9 @@ package com.bloodline
 		
 		private function startPowerup():void {
 			if(_latestChoice != DecisionData.NO_CHOICE){
-				var p:Powerup = new Powerup(_latestChoice);
-				p.InitFalling(3 * Bloodline.TILESIZE, 6 * Bloodline.TILESIZE);
-				_powerupGroup.add(p);
+				_powerup = new Powerup(_latestChoice);
+				_powerup.InitFalling(3 * Bloodline.TILESIZE, 6 * Bloodline.TILESIZE);
+				_powerupGroup.add(_powerup);
 			}
 		}
 	}
