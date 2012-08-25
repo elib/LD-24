@@ -14,6 +14,8 @@ package com.bloodline
 		private var _entranceDir:uint;
 		private var _latestChoice:uint;
 		
+		private var _doorGroup:FlxGroup = new FlxGroup();
+		
 		public function Room(initialDir:uint, lastChoice:uint) 
 		{
 			super();
@@ -69,6 +71,13 @@ package com.bloodline
 			this.add(wallPiece);
 			wallPiece = new WallPiece(9 * Bloodline.TILESIZE, 5 * Bloodline.TILESIZE, Bloodline.TILESIZE, 2*Bloodline.TILESIZE);
 			this.add(wallPiece);
+			
+			for (var i:uint = 0; i < 4; i++) {
+				var door:Doorway = new Doorway(i);
+				_doorGroup.add(door);
+			}
+			
+			this.add(_doorGroup);
 		}
 	}
 }
