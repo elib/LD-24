@@ -212,11 +212,17 @@ package com.bloodline
 			FlxG.collide(_wallGroup, _player);
 			FlxG.collide(_doorGroup, _player);
 			FlxG.collide(_enemyGroup, _player);
-			FlxG.collide(_powerupGroup, _player);
+			FlxG.collide(_powerupGroup, _player, powerupHitPlayer);
 			
 			if (wasState != _state) {
-				FlxG.log("State changed to: " + _state);
+				//FlxG.log("State changed to: " + _state);
 			}
+		}
+		
+		private function powerupHitPlayer(powerupObj:FlxObject, playerObj:FlxObject):void {
+			powerupObj.kill();
+			FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] += 1;
+			FlxG.log("Attribute " + _latestChoice + " increased by 1 and is now " + FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice]);
 		}
 		
 		private function determineNextRoomAndGo():void {
