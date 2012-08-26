@@ -93,7 +93,7 @@ package com.bloodline
 			addAnimation("dead", [3]);
 			
 			setType(type);
-			updatePath();
+			updatePath(false);
 			
 			_updatePathNotifier.NotifyMe();
 		}
@@ -134,7 +134,7 @@ package com.bloodline
 			}
 		}
 		
-		private function updatePath():void {
+		private function updatePath(doSound:Boolean = true):void {
 			var player:Player = (FlxG.state as Room)._player;
 			var nodes:Array = [new FlxPoint(player.x, player.y)];
 			if (path) {
@@ -142,7 +142,7 @@ package com.bloodline
 			}
 			
 			followPath(new FlxPath(nodes), speed * SPEED_MODIFIER, PATH_FORWARD, true);
-			if(FlxG.random() < 0.2) {
+			if(doSound && FlxG.random() < 0.15) {
 				FlxG.play(bidi[_type] as Class);
 			}
 			

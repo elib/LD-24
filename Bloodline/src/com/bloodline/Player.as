@@ -103,6 +103,13 @@ package com.bloodline
 				}
 			}
 			
+			if (_reloadTimer.TimerFraction > 0 && _reloadTimer.TimerFraction < 1) {
+				(FlxG.state as Room)._chargeWeapon.visible = true;
+				(FlxG.state as Room)._chargeWeapon.Amount = _reloadTimer.TimerFraction;
+			} else {
+				(FlxG.state as Room)._chargeWeapon.visible = false;
+			}
+			
 			if(dir.length > 0) {
 				dir.normalize(1);
 				this.acceleration.x = dir.x * ACCEL_RATE * FlxG.elapsed;

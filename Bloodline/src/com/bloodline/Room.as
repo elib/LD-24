@@ -51,6 +51,8 @@ package com.bloodline
 		
 		private var _metersGroup:FlxGroup = new FlxGroup();
 		
+		public var _chargeWeapon:HealthBar = new HealthBar(2, 1, FlxG.height - 16, 30, 14);
+		
 		private function set allDoorsOpen(shouldOpen:Boolean) : void {
 			for (var i:uint = 0; i < 4; i++) {
 				(_doorGroup.members[i] as Doorway).Open = shouldOpen;
@@ -95,6 +97,8 @@ package com.bloodline
 			this.add(_player);
 			this.add(_powerupGroup);
 			this.add(_hudGroup);
+			this.add(_chargeWeapon);
+			_chargeWeapon.visible = false;
 			
 			_doorsOpenTimer.NotifyMe(0, true);
 			//allDoorsOpen = true;
@@ -153,7 +157,7 @@ package com.bloodline
 				FlxG.scores[Bloodline.GENERATION_PLACE] += 1;
 				
 				var newPop:int = FlxG.scores[Bloodline.HITPOINT_PLACE] + 1;
-				newPop = Math.min(newPop, FlxG.scores[Bloodline.HITPOINT_PLACE]);
+				newPop = Math.min(newPop, Bloodline.STARTING_HITPOINTS);
 				FlxG.scores[Bloodline.HITPOINT_PLACE] = newPop;
 				_player.health = FlxG.scores[Bloodline.HITPOINT_PLACE];
 			}
@@ -361,7 +365,6 @@ package com.bloodline
 					isTooClose = false;
 				}
 			}
-			FlxG.log(thePoint);
 			return thePoint;
 		}
 		
@@ -391,7 +394,7 @@ package com.bloodline
 		
 		private var onlyOne:Boolean;
 		public function Attack() :void {
-			var margin:int = 10;
+			var margin:int = 200;
 			var dummy:FlxObject =  new FlxObject(_player.x - margin, _player.y - margin, _player.width + 2 * margin, _player.height + 2 * margin);
 			onlyOne = true;
 			FlxG.overlap(_enemyGroup, dummy, attackHitEnemy);

@@ -43,9 +43,8 @@ package com.bloodline
 			if ((FlxG.scores[Bloodline.HISTORY_PLACE] as Array).length > 1) {
 				txt.text += " another bloodline";
 			}
-			txt.setFormat(null, 8, 0xffffff, "left");
+			txt.setFormat(null, 8, 0xffdc5151, "left");
 			this.add(txt);
-			
 			
 		}
 		
