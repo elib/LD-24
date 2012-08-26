@@ -261,6 +261,7 @@ package com.bloodline
 			FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] += 1;
 			(_metersGroup.members[_latestChoice] as HealthBar).Amount = FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] / Bloodline.MAX_GENERATIONS_FLOAT;
 			(_metersGroup.members[_latestChoice] as HealthBar).Flicker();
+			_player.ColorSprite();
 			FlxG.log("Attribute " + _latestChoice + " increased by 1 and is now " + FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice]);
 		}
 		
@@ -285,7 +286,7 @@ package com.bloodline
 			if(_latestChoice != DecisionData.NO_CHOICE){
 				_powerup = new Powerup(_latestChoice);
 				_powerup.play("artifact");
-				_powerup.InitFalling(3 * Bloodline.TILESIZE, 6 * Bloodline.TILESIZE);
+				_powerup.InitFalling(getFarFromPlayer());
 				_powerupGroup.add(_powerup);
 			}
 		}
@@ -293,6 +294,25 @@ package com.bloodline
 		private function setTexts():void {
 			_genTxt.text = "GEN " + FlxG.scores[Bloodline.GENERATION_PLACE];
 			_popTxt.text = "POP " + FlxG.scores[Bloodline.HITPOINT_PLACE];
+		}
+		
+		private function getFarFromPlayer():Point {
+			var isTooClose:Boolean = true;
+			var thePoint:Point;
+			while (isTooClose) {
+				var x:int = int((1 + FlxG.random() * 7) * Bloodline.TILESIZE);
+				var y:int = int((1 + FlxG.random() * 5) * Bloodline.TILESIZE);
+				thePoint = new Point(x, y);
+				//test closeness to player
+				var testPoint:Point = new Point(_player.x + _player.width / 2 - x,
+					_player.y + _player.height / 2 - y);
+				var lng:Number = testPoint.length;
+				if (lng > 4) {
+					isTooClose = false;
+				}
+			}
+			FlxG.log(thePoint);
+			return thePoint;
 		}
 		
 		private function setupHud() : void {

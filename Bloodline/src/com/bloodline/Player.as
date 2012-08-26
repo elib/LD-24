@@ -24,12 +24,15 @@ package com.bloodline
 		{
 			super();
 			
-			var col:uint = getColor();
-			
-			makeGraphic(16, 16, col);
+			ColorSprite();
 			
 			drag.x = drag.y = DRAG_RATE;
 			maxVelocity.x = maxVelocity.y = MAX_VEL;
+		}
+		
+		public function ColorSprite():void {
+			var col:uint = getColor();
+			makeGraphic(16, 16, col);
 		}
 		
 		private function getColor():uint {

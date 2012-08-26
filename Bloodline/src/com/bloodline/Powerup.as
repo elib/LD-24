@@ -1,5 +1,6 @@
 package com.bloodline 
 {
+	import flash.geom.Point;
 	import org.flixel.*;
 	
 	public class Powerup extends FlxSprite
@@ -13,10 +14,10 @@ package com.bloodline
 		private var _targetY : int;
 		private var _originalY: int;
 		
-		public function InitFalling(X:Number, Y:Number):void {
-			x = X - this.width / 2;
+		public function InitFalling(point:Point):void {
+			x = point.x - this.width / 2;
 			y = 0 - this.height;
-			_targetY = Y;
+			_targetY = point.y;
 			_originalY = y;
 			this.solid = false;
 		}
