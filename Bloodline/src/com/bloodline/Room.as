@@ -97,7 +97,7 @@ package com.bloodline
 			this.add(_hudGroup);
 			
 			_doorsOpenTimer.NotifyMe(0, true);
-			allDoorsOpen = true;
+			//allDoorsOpen = true;
 		}
 		
 		private function setupEnemies():void {

@@ -22,6 +22,7 @@ package com.bloodline
 			super();
 			immovable = true;
 			init(direction);
+			Open = true;
 		}
 		
 		private function init(direction:uint) :void {

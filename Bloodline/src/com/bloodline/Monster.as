@@ -9,6 +9,16 @@ package com.bloodline
 	{
 		[Embed(source = '../../../../Assets/Monsters.png')] private static var ImgMonsters:Class;
 		
+		[Embed(source = '../../../../Assets/Sounds/bidi-med.mp3')] private static var SndBidi1:Class;
+		[Embed(source = '../../../../Assets/Sounds/bidi-high.mp3')] private static var SndBidi2:Class;
+		[Embed(source = '../../../../Assets/Sounds/bidi-low.mp3')] private static var SndBidi3:Class;
+		[Embed(source = '../../../../Assets/Sounds/ugh-med.mp3')] private static var SndUgh1:Class;
+		[Embed(source = '../../../../Assets/Sounds/ugh-high.mp3')] private static var SndUgh2:Class;
+		[Embed(source = '../../../../Assets/Sounds/ugh-low.mp3')] private static var SndUgh3:Class;
+		
+		private static var ugh:Array = [SndUgh1, SndUgh2, SndUgh3];
+		private static var bidi:Array = [SndBidi1, SndBidi2, SndBidi3];
+		
 		public static const SPEED_MODIFIER:Number = 10;
 		
 		public static const MONSTER_NORMAL:uint = 0;
@@ -65,11 +75,14 @@ package com.bloodline
 			
 		public var strength:int = 0;
 		public var speed:int = 0;
+		private var _type:int;
 		private var _updatePathNotifier:TimeNotifier = new TimeNotifier(0.5 + FlxG.random() * 0.5);
 		
 		public function Monster(type:uint, p:Point) 
 		{
 			super(p.x, p.y);
+			
+			_type = type;
 			
 			loadGraphic(ImgMonsters, true, true, 32, 32);
 			addAnimation("normal", [0]);
@@ -107,7 +120,7 @@ package com.bloodline
 			super.update();
 			if (alive) {
 				if (health <= 0) {
-					kill();
+					alive = false;
 				}
 				
 				if (_updatePathNotifier.Notify) {
@@ -127,6 +140,15 @@ package com.bloodline
 			}
 			
 			followPath(new FlxPath(nodes), speed * SPEED_MODIFIER, PATH_FORWARD, true);
+			if(FlxG.random() < 0.2) {
+				FlxG.play(bidi[_type] as Class);
+			}
+		}
+		
+		override public function hurt(Damage:Number):void 
+		{
+			super.hurt(Damage);
+			FlxG.play(ugh[_type] as Class);
 		}
 	}
 }
