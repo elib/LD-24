@@ -9,7 +9,7 @@ package com.bloodline
 	{
 		[Embed(source = '../../../../Assets/Monsters.png')] private static var ImgMonsters:Class;
 		
-		public static const SPEED_MODIFIER:Number = 30;
+		public static const SPEED_MODIFIER:Number = 10;
 		
 		public static const MONSTER_NORMAL:uint = 0;
 		public static const MONSTER_FAST:uint = 1;
@@ -63,8 +63,8 @@ package com.bloodline
 				32, 32]
 			];
 			
-		private var	strength:int = 0;
-		private var	speed:int = 0;
+		public var strength:int = 0;
+		public var speed:int = 0;
 		private var _updatePathNotifier:TimeNotifier = new TimeNotifier(0.5 + FlxG.random() * 0.5);
 		
 		public function Monster(type:uint, p:Point) 
@@ -75,6 +75,7 @@ package com.bloodline
 			addAnimation("normal", [0]);
 			addAnimation("fast", [1]);
 			addAnimation("slow", [2]);
+			addAnimation("dead", [3]);
 			
 			setType(type);
 			updatePath();
@@ -104,9 +105,17 @@ package com.bloodline
 		override public function update():void 
 		{
 			super.update();
-			if (_updatePathNotifier.Notify) {
-				updatePath();
-				_updatePathNotifier.NotifyMe();
+			if (alive) {
+				if (health <= 0) {
+					kill();
+				}
+				
+				if (_updatePathNotifier.Notify) {
+					updatePath();
+					_updatePathNotifier.NotifyMe();
+				}
+			} else {
+				play("dead");
 			}
 		}
 		
