@@ -8,7 +8,6 @@ package com.bloodline
 		[Embed(source = '../../../../Assets/Powerup1.png')] private static var ImgPowerup1:Class;
 		[Embed(source = '../../../../Assets/Powerup2.png')] private static var ImgPowerup2:Class;
 		[Embed(source = '../../../../Assets/Powerup3.png')] private static var ImgPowerup3:Class;
-		[Embed(source = '../../../../Assets/infinity.png')] private static var ImgPowerup4:Class;
 		
 		private static var theGraphics:Array = [ ImgPowerup1, ImgPowerup2, ImgPowerup3 ];
 		

@@ -95,6 +95,9 @@ package com.bloodline
 			this.add(_wallGroup);
 			this.add(_symbolGroup);
 			this.add(_doorGroup);
+			if (FlxG.scores[Bloodline.GENERATION_PLACE] == Bloodline.MAX_GENERATIONS) {
+				_symbolGroup.visible = false;
+			}
 			this.add(_enemyGroup);
 			this.add(_flashGroup);
 			this.add(_player);
@@ -329,8 +332,15 @@ package com.bloodline
 		}
 		
 		private function powerupHitPlayer(powerupObj:FlxObject, playerObj:FlxObject):void {
-			powerupObj.kill();
 			FlxG.play(SndPowerupGet);
+			
+			if (powerupObj is WinThing) {
+				FlxG.fade(0xffffffff, 2, GoToSummary);
+				return;
+			}
+			
+			powerupObj.kill();
+			
 			FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] += 1;
 			(_metersGroup.members[_latestChoice] as HealthBar).Amount = FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] / Bloodline.MAX_GENERATIONS_FLOAT;
 			(_metersGroup.members[_latestChoice] as HealthBar).Flicker();
@@ -356,11 +366,19 @@ package com.bloodline
 		}
 		
 		private function startPowerup():void {
-			if(_latestChoice != DecisionData.NO_CHOICE){
-				_powerup = new Powerup(_latestChoice);
-				_powerup.play("artifact");
-				_powerup.InitFalling(getFarFromPlayer());
-				_powerupGroup.add(_powerup);
+			if (FlxG.scores[Bloodline.GENERATION_PLACE] == Bloodline.MAX_GENERATIONS) {
+				var winthing:WinThing = new WinThing();
+				var pt:Point = getFarFromPlayer();
+				winthing.x = pt.x;
+				winthing.y = pt.y;
+				_powerupGroup.add(winthing);
+			} else {
+				if(_latestChoice != DecisionData.NO_CHOICE){
+					_powerup = new Powerup(_latestChoice);
+					_powerup.play("artifact");
+					_powerup.InitFalling(getFarFromPlayer());
+					_powerupGroup.add(_powerup);
+				}
 			}
 		}
 		
