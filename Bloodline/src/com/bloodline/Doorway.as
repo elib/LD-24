@@ -3,6 +3,10 @@ package com.bloodline
 	import org.flixel.*;
 	public class Doorway extends FlxSprite
 	{
+		
+		[Embed(source = '../../../../Assets/door_tall.png')] private static var ImgTall:Class;
+		[Embed(source = '../../../../Assets/door_wide.png')] private static var ImgWide:Class;
+		
 		private var _isOpen:Boolean = false;
 		
 		public function set Open(open:Boolean):void {
@@ -56,7 +60,11 @@ package com.bloodline
 					break;
 			}
 			
-			makeGraphic(wid, hei, 0xffaf7c5d);
+			if (wid > hei) {
+				loadGraphic(ImgWide);
+			} else {
+				loadGraphic(ImgTall);
+			}
 		}
 		
 	}

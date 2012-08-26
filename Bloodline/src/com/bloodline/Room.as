@@ -168,7 +168,7 @@ package com.bloodline
 			//bottom left
 			wallPiece = new WallPiece(0, 7 * Bloodline.TILESIZE, 4 * Bloodline.TILESIZE, Bloodline.TILESIZE);
 			_wallGroup.add(wallPiece);
-			wallPiece = new WallPiece(0, 5 * Bloodline.TILESIZE, Bloodline.TILESIZE, 3 * Bloodline.TILESIZE);
+			wallPiece = new WallPiece(0, 5 * Bloodline.TILESIZE, Bloodline.TILESIZE, 2 * Bloodline.TILESIZE);
 			_wallGroup.add(wallPiece);
 			
 			//bottom right
