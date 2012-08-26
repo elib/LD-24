@@ -2,6 +2,7 @@ package com.bloodline
 {
 	import adobe.utils.CustomActions;
 	import flash.geom.Point;
+	import flash.text.engine.BreakOpportunity;
 	import org.flixel.*;
 	import util.TimeNotifier;
 	public class Room extends FlxState
@@ -22,6 +23,7 @@ package com.bloodline
 		private var _state:uint = ENTRANCE_STATE;
 		
 		private var _genTxt:FlxText = new FlxText(0, 0, 50);
+		private var _popTxt:FlxText = new FlxText(0, 0, 50);
 		
 		//room setup
 		private var _entranceDir:uint;
@@ -32,6 +34,7 @@ package com.bloodline
 		private var _enemyGroup:FlxGroup = new FlxGroup();
 		private var _powerupGroup:FlxGroup = new FlxGroup();
 		private var _symbolGroup:FlxGroup = new FlxGroup();
+		private var _hudGroup:FlxGroup = new FlxGroup();
 		
 		private var _doorsOpenTimer:TimeNotifier = new TimeNotifier(1);
 		private var _powerupFallTimer:TimeNotifier = new TimeNotifier(1);
@@ -68,9 +71,7 @@ package com.bloodline
 			setRoomPieces();
 			spawn();
 			
-			_genTxt.text = "GEN " + FlxG.scores[Bloodline.GENERATION_PLACE];
-			_genTxt.setFormat(null, 8, 0xff000000);
-			this.add(_genTxt);
+			setupHud();
 			
 			this.add(_wallGroup);
 			this.add(_symbolGroup);
@@ -78,6 +79,7 @@ package com.bloodline
 			this.add(_enemyGroup);
 			this.add(_player);
 			this.add(_powerupGroup);
+			this.add(_hudGroup);
 			
 			_doorsOpenTimer.NotifyMe(0, true);
 			allDoorsOpen = true;
@@ -143,6 +145,8 @@ package com.bloodline
 							break;
 					}
 					p.play("symbol");
+					p.x += 8;
+					p.y += 8;
 					_symbolGroup.add(p);
 				}
 			}
@@ -277,6 +281,24 @@ package com.bloodline
 				_powerup.InitFalling(3 * Bloodline.TILESIZE, 6 * Bloodline.TILESIZE);
 				_powerupGroup.add(_powerup);
 			}
+		}
+		
+		private function setTexts():void {
+			_genTxt.text = "GEN " + FlxG.scores[Bloodline.GENERATION_PLACE];
+			_popTxt.text = "POP " + FlxG.scores[Bloodline.HITPOINT_PLACE];
+		}
+		
+		private function setupHud() : void {
+			setTexts();
+			
+			const margin:int = 0;
+			
+			_genTxt.setFormat(null, 8, 0xff000000);
+			_popTxt.setFormat(null, 8, 0xff000000);
+			_popTxt.y = _genTxt.y + _genTxt.height + margin;
+			
+			_hudGroup.add(_genTxt);
+			_hudGroup.add(_popTxt);
 		}
 	}
 }
