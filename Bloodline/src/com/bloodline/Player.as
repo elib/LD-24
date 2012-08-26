@@ -12,6 +12,7 @@ package com.bloodline
 		[Embed(source = '../../../../Assets/Sounds/attack.mp3')] private static var SndAttack:Class;
 		[Embed(source = '../../../../Assets/Sounds/attack_fail.mp3')] private static var SndAttackFail:Class;
 		[Embed(source = '../../../../Assets/Sounds/ready.mp3')] private static var SndReady:Class;
+		[Embed(source = '../../../../Assets/Sounds/player_hurt.mp3')] private static var SndHurt:Class;
 		
 		private static const ACCEL_RATE:Number = 10000;
 		private static const DRAG_RATE:Number = 300;
@@ -31,6 +32,8 @@ package com.bloodline
 		public function Player() 
 		{
 			super();
+			
+			health = FlxG.scores[Bloodline.HITPOINT_PLACE];
 			
 			ColorSprite();
 			
@@ -107,7 +110,14 @@ package com.bloodline
 			} else {
 				this.acceleration.x = this.acceleration.y = 0;
 			}
-			
+		}
+		
+		override public function hurt(Damage:Number):void 
+		{
+			super.hurt(Damage);
+			FlxG.scores[Bloodline.HITPOINT_PLACE] = health;
+			FlxG.play(SndHurt);
+			this.flicker();
 		}
 	}
 }

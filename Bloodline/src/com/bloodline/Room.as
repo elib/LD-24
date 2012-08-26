@@ -107,6 +107,8 @@ package com.bloodline
 			for (var i:int = 0; i < 3; i++) { //for each type
 				spawnEnemies(i, wave[i]);
 			}
+			
+			_enemyGroup.active = false;
 		}
 		
 		private function spawnEnemies(type:int, number:int):void {
@@ -149,6 +151,11 @@ package com.bloodline
 				FlxG.scores[Bloodline.LATEST_NODE_PLACE] = newDec;
 				
 				FlxG.scores[Bloodline.GENERATION_PLACE] += 1;
+				
+				var newPop:int = FlxG.scores[Bloodline.HITPOINT_PLACE] + 1;
+				newPop = Math.min(newPop, FlxG.scores[Bloodline.HITPOINT_PLACE]);
+				FlxG.scores[Bloodline.HITPOINT_PLACE] = newPop;
+				_player.health = FlxG.scores[Bloodline.HITPOINT_PLACE];
 			}
 			
 			_directionChoices = [DecisionData.DEF_CHOICE, DecisionData.SPD_CHOICE, DecisionData.STR_CHOICE];
@@ -226,6 +233,7 @@ package com.bloodline
 						_state = COMBAT_STATE;
 						allDoorsOpen = false;
 						_player.InterActive = true;
+						_enemyGroup.active = true;
 					}
 					break;
 				case COMBAT_STATE:
@@ -275,7 +283,7 @@ package com.bloodline
 			
 			FlxG.collide(_wallGroup, _player);
 			FlxG.collide(_doorGroup, _player);
-			FlxG.collide(_enemyGroup, _player);
+			FlxG.collide(_enemyGroup, _player, enemyHitPlayer);
 			FlxG.collide(_enemyGroup, _enemyGroup);
 			//FlxG.collide(_wallGroup, _enemyGroup);
 			//FlxG.collide(_doorGroup, _enemyGroup);
@@ -284,6 +292,17 @@ package com.bloodline
 			if (wasState != _state) {
 				//FlxG.log("State changed to: " + _state);
 			}
+		}
+		
+		private function enemyHitPlayer(enemyObj:FlxObject, playerObj:FlxObject):void {
+			var en:Monster = enemyObj as Monster;
+			if (en.canHurt) {
+				if(!playerObj.flickering) {
+					playerObj.hurt(en.strength);
+				}
+				en.canHurt = false;
+			}
+			setTexts();
 		}
 		
 		private function powerupHitPlayer(powerupObj:FlxObject, playerObj:FlxObject):void {
@@ -372,7 +391,7 @@ package com.bloodline
 		
 		private var onlyOne:Boolean;
 		public function Attack() :void {
-			var margin:int = 4;
+			var margin:int = 10;
 			var dummy:FlxObject =  new FlxObject(_player.x - margin, _player.y - margin, _player.width + 2 * margin, _player.height + 2 * margin);
 			onlyOne = true;
 			FlxG.overlap(_enemyGroup, dummy, attackHitEnemy);

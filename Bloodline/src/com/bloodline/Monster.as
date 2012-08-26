@@ -78,6 +78,8 @@ package com.bloodline
 		private var _type:int;
 		private var _updatePathNotifier:TimeNotifier = new TimeNotifier(0.5 + FlxG.random() * 0.5);
 		
+		public var canHurt:Boolean = false;
+		
 		public function Monster(type:uint, p:Point) 
 		{
 			super(p.x, p.y);
@@ -143,12 +145,15 @@ package com.bloodline
 			if(FlxG.random() < 0.2) {
 				FlxG.play(bidi[_type] as Class);
 			}
+			
+			canHurt = true;
 		}
 		
 		override public function hurt(Damage:Number):void 
 		{
 			super.hurt(Damage);
 			FlxG.play(ugh[_type] as Class);
+			flicker();
 		}
 	}
 }

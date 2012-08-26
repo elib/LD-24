@@ -95,6 +95,7 @@ package org.flixel
 		 */
 		override public function update():void
 		{
+			if (!active) return;
 			var basic:FlxBasic;
 			var i:uint = 0;
 			while(i < length)
