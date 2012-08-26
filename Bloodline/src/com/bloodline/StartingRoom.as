@@ -4,7 +4,7 @@ package com.bloodline
 	
 	public class StartingRoom extends Room
 	{
-		[Embed(source = '../../../../Assets/aleph.png')] private static var ImgAleph:Class;
+		[Embed(source = '../../../../Assets/aleph.png')] public static var ImgAleph:Class;
 		
 		public function StartingRoom() 
 		{

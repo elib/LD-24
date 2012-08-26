@@ -345,6 +345,7 @@ package com.bloodline
 			
 			if (powerupObj is WinThing) {
 				FlxG.fade(0xffffffff, 2, GoToSummary);
+				powerupObj.solid = false;
 				return;
 			}
 			
@@ -419,7 +420,7 @@ package com.bloodline
 			
 			_genTxt.setFormat(null, 8, 0xff000000);
 			_popTxt.setFormat(null, 8, 0xff000000);
-			_popTxt.y = _genTxt.y + _genTxt.height + margin;
+			_popTxt.y = _genTxt.y + _genTxt.height;
 			var top:int = _popTxt.y + _popTxt.height;
 			
 			top = 32;

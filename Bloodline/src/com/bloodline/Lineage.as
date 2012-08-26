@@ -14,7 +14,7 @@ package com.bloodline
 			var listOfLists:Array = (FlxG.scores[Bloodline.LISTS_PLACE] as Array);
 			var listOfPlayers:Array = (listOfLists[listOfLists.length - 1] as Array);
 			var i:int;
-			for (i = 0; i < listOfPlayers.length; i++) {
+			for (i = 1; i < listOfPlayers.length; i++) {
 				var attr:Array = listOfPlayers[i] as Array;
 				var col:uint = Player.GetColor(attr[0],
 									attr[1],
@@ -26,10 +26,20 @@ package com.bloodline
 				this.add(p);
 			}
 			
+			var aleph:FlxSprite = new FlxSprite(2, Y, StartingRoom.ImgAleph);
+			aleph.scale.x = aleph.scale.y = .5;
+			aleph.x -= 8;
+			aleph.y -= 8;
+			this.add(aleph);
+			
 			if (!successful) {
 				// add SKULL
 				var skull:FlxSprite = new FlxSprite(2 + 20 * i, Y, ImgSkull);
 				this.add(skull);
+			} else {
+				// add INFINITY
+				var infinity:FlxSprite = new FlxSprite(2 + 20 * i, Y, WinThing.ImgWin);
+				this.add(infinity);
 			}
 		}
 	}

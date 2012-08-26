@@ -19,7 +19,7 @@ package com.bloodline
 		private static var ugh:Array = [SndUgh1, SndUgh2, SndUgh3];
 		private static var bidi:Array = [SndBidi1, SndBidi2, SndBidi3];
 		
-		public static const SPEED_MODIFIER:Number = 10;
+		public static const SPEED_MODIFIER:Number = 12;
 		
 		public static const MONSTER_NORMAL:uint = 0;
 		public static const MONSTER_FAST:uint = 1;
