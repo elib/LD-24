@@ -73,6 +73,9 @@ package com.bloodline
 			
 			setupHud();
 			
+			var bgsprite:Background = new Background();
+			this.add(bgsprite);
+			
 			this.add(_wallGroup);
 			this.add(_symbolGroup);
 			this.add(_doorGroup);
