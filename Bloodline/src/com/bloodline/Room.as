@@ -75,6 +75,8 @@ package com.bloodline
 			
 			setupHud();
 			
+			setupEnemies();
+			
 			var bgsprite:Background = new Background();
 			this.add(bgsprite);
 			
@@ -88,6 +90,19 @@ package com.bloodline
 			
 			_doorsOpenTimer.NotifyMe(0, true);
 			allDoorsOpen = true;
+		}
+		
+		private function setupEnemies():void {
+			//determine difficulty
+			var gen:int = FlxG.scores[Bloodline.GENERATION_PLACE];
+			if (gen == 0) return;
+			
+			var normals:int = gen + 1;
+			for (var i:int = 0; i < normals; i++) {
+				var p:Point = getFarFromPlayer();
+				var m:Monster = new Monster(Monster.MONSTER_NORMAL, p);
+				_enemyGroup.add(m);
+			}
 		}
 		
 		private function spawn():void {
@@ -249,6 +264,9 @@ package com.bloodline
 			FlxG.collide(_wallGroup, _player);
 			FlxG.collide(_doorGroup, _player);
 			FlxG.collide(_enemyGroup, _player);
+			FlxG.collide(_enemyGroup, _enemyGroup);
+			FlxG.collide(_wallGroup, _enemyGroup);
+			FlxG.collide(_doorGroup, _enemyGroup);
 			FlxG.collide(_powerupGroup, _player, powerupHitPlayer);
 			
 			if (wasState != _state) {
@@ -307,7 +325,7 @@ package com.bloodline
 				var testPoint:Point = new Point(_player.x + _player.width / 2 - x,
 					_player.y + _player.height / 2 - y);
 				var lng:Number = testPoint.length;
-				if (lng > 4) {
+				if (lng > 3*Bloodline.TILESIZE) {
 					isTooClose = false;
 				}
 			}
