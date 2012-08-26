@@ -45,6 +45,8 @@ package com.bloodline
 		
 		private var _player:Player = new Player();
 		
+		private var _metersGroup:FlxGroup = new FlxGroup();
+		
 		private function set allDoorsOpen(shouldOpen:Boolean) : void {
 			for (var i:uint = 0; i < 4; i++) {
 				(_doorGroup.members[i] as Doorway).Open = shouldOpen;
@@ -257,6 +259,8 @@ package com.bloodline
 		private function powerupHitPlayer(powerupObj:FlxObject, playerObj:FlxObject):void {
 			powerupObj.kill();
 			FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] += 1;
+			(_metersGroup.members[_latestChoice] as HealthBar).Amount = FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] / Bloodline.MAX_GENERATIONS_FLOAT;
+			(_metersGroup.members[_latestChoice] as HealthBar).Flicker();
 			FlxG.log("Attribute " + _latestChoice + " increased by 1 and is now " + FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice]);
 		}
 		
@@ -299,9 +303,20 @@ package com.bloodline
 			_genTxt.setFormat(null, 8, 0xff000000);
 			_popTxt.setFormat(null, 8, 0xff000000);
 			_popTxt.y = _genTxt.y + _genTxt.height + margin;
+			var top:int = _popTxt.y + _popTxt.height;
+			
+			top = 32;
+			
+			for (var i:int = 0; i < 3; i++) {
+				var healthbar:HealthBar = new HealthBar(i, 1, top, 30, 5);
+				top += 6;
+				healthbar.Amount = FlxG.scores[Bloodline.STRENGTH_PLACE + i] / Bloodline.MAX_GENERATIONS_FLOAT;
+				_metersGroup.add(healthbar);
+			}
 			
 			_hudGroup.add(_genTxt);
 			_hudGroup.add(_popTxt);
+			_hudGroup.add(_metersGroup);
 		}
 	}
 }

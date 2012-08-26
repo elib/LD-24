@@ -30,7 +30,7 @@ package com.bloodline
 			addAnimation("artifact", [0]);
 		}
 		
-		public function DoAnim(fraction:Number) {
+		public function DoAnim(fraction:Number):void {
 			y = _originalY + (_targetY - _originalY) * fraction;
 		}
 	}
