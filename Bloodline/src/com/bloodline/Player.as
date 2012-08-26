@@ -39,8 +39,6 @@ package com.bloodline
 			
 			
 			var hsl:Array = ColorUtil.rgbToHsl(r, g, b);
-			//FlxG.log("New player color: [" + r + ", " + g + ", " + b + "]");
-			FlxG.log("Player HSL: " + hsl);
 			hsl[2] = 0.5 + (Bloodline.MAX_GENERATIONS_FLOAT - FlxG.scores[Bloodline.GENERATION_PLACE]) / (2*Bloodline.MAX_GENERATIONS_FLOAT);
 			var rgb:Array = ColorUtil.hslToRgb(hsl[0], hsl[1], hsl[2]);
 			var t:ColorTransform = new ColorTransform(1.0, 1.0, 1.0, 1.0, rgb[0], rgb[1], rgb[2]);

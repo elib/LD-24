@@ -219,7 +219,7 @@ package com.bloodline
 						_player.InterActive = true;
 					} else {
 						if (_powerup) {
-							//animate
+							_powerup.DoAnim(_powerupFallTimer.TimerFraction);
 						}
 					}
 					break;

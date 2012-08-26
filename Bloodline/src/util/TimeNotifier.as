@@ -69,6 +69,20 @@ package util
 			
 			return false;
         }
-
+		
+		public function get TimerFraction():Number
+        {
+			if (hasTimeElapsed())
+			{
+				return 1;
+			}
+			
+			if (_notificationTime == 0)
+			{
+				return 0;
+			}
+			
+			return (1.0 - ((_notificationTime - _totalTime) / _currentTimerLength));
+        }
 	}
 }

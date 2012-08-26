@@ -10,9 +10,14 @@ package com.bloodline
 		
 		private static var theGraphics:Array = [ ImgPowerup1, ImgPowerup2, ImgPowerup3 ];
 		
+		private var _targetY : int;
+		private var _originalY: int;
+		
 		public function InitFalling(X:Number, Y:Number):void {
 			x = X - this.width / 2;
-			y = Y - this.height;
+			y = 0 - this.height;
+			_targetY = Y;
+			_originalY = y;
 			this.solid = false;
 		}
 		
@@ -23,6 +28,10 @@ package com.bloodline
 			loadGraphic(theGraphics[powerupType], true, true, 16, 16);
 			addAnimation("symbol", [1]);
 			addAnimation("artifact", [0]);
+		}
+		
+		public function DoAnim(fraction:Number) {
+			y = _originalY + (_targetY - _originalY) * fraction;
 		}
 	}
 }
