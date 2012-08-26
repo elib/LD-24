@@ -163,6 +163,9 @@ package com.bloodline
 				newPop = Math.min(newPop, Bloodline.STARTING_HITPOINTS);
 				FlxG.scores[Bloodline.HITPOINT_PLACE] = newPop;
 				_player.health = FlxG.scores[Bloodline.HITPOINT_PLACE];
+				
+				var listOfLists:Array = (FlxG.scores[Bloodline.LISTS_PLACE] as Array);
+				(listOfLists[listOfLists.length - 1] as Array).push(_player);
 			}
 			
 			_directionChoices = [DecisionData.DEF_CHOICE, DecisionData.SPD_CHOICE, DecisionData.STR_CHOICE];
@@ -229,6 +232,10 @@ package com.bloodline
 			}
 		}
 		
+		private function GoToSummary():void {
+			FlxG.switchState(new SummaryState(_player.health > 0));
+		}
+		
 		override public function update():void 
 		{
 			super.update();
@@ -244,6 +251,9 @@ package com.bloodline
 					}
 					break;
 				case COMBAT_STATE:
+					if (_player.health <= 0) {
+						FlxG.fade(0xff000000, 2, GoToSummary, false);
+					}
 					if (_enemyGroup.countLiving() <= 0) {
 						//win, move on
 						_state = POWERUP_STATE;
