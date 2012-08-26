@@ -11,6 +11,7 @@ package com.bloodline
 	{
 		[Embed(source = '../../../../Assets/Sounds/attack.mp3')] private static var SndAttack:Class;
 		[Embed(source = '../../../../Assets/Sounds/attack_fail.mp3')] private static var SndAttackFail:Class;
+		[Embed(source = '../../../../Assets/Sounds/ready.mp3')] private static var SndReady:Class;
 		
 		private static const ACCEL_RATE:Number = 10000;
 		private static const DRAG_RATE:Number = 300;
@@ -68,6 +69,7 @@ package com.bloodline
 			if (_reloadTimer.Notify) {
 				_isShotReady = true;
 				//play RELOAD sound
+				FlxG.play(SndReady);
 			}
 			
 			var dir:Point = new Point(0, 0);
