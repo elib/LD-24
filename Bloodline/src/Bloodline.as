@@ -22,6 +22,8 @@ package
 		
 		public static const STARTING_HITPOINTS:int = 10;
 		
+		public static const MAX_GENERATIONS:int = 15;
+		
 		public function Bloodline()
 		{
 			super(320, 256, TitleState, 2);
