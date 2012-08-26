@@ -18,6 +18,25 @@ package com.bloodline
 		private static const BBX:uint = 7;
 		private static const BBY:uint = 8;
 		
+		public static const Waves:Array = 
+			[
+				[0, 0, 0], //0
+				[2, 0, 0],
+				[3, 0, 0],
+				[2, 2, 0],
+				[2, 4, 0],
+				[0, 8, 0], //5
+				[0, 0, 1], 
+				[2, 0, 1],
+				[0, 0, 2],
+				[0, 5, 2],
+				[0, 10, 0], //5
+				[1, 0, 0],
+				[5, 0, 0],
+				[0, 0, 4],
+				[3, 10, 3] //14
+			];
+		
 		private static const MonsterAttributes:Array = 
 			[
 				//"normal" monster, low and high values

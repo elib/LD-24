@@ -95,12 +95,16 @@ package com.bloodline
 		private function setupEnemies():void {
 			//determine difficulty
 			var gen:int = FlxG.scores[Bloodline.GENERATION_PLACE];
-			if (gen == 0) return;
-			
-			var normals:int = gen + 1;
-			for (var i:int = 0; i < normals; i++) {
+			var wave:Array = Monster.Waves[gen];
+			for (var i:int = 0; i < 3; i++) { //for each type
+				spawnEnemies(i, wave[i]);
+			}
+		}
+		
+		private function spawnEnemies(type:int, number:int):void {
+			for (var i:int = 0; i < number; i++) {
 				var p:Point = getFarFromPlayer();
-				var m:Monster = new Monster(Monster.MONSTER_NORMAL, p);
+				var m:Monster = new Monster(type, p);
 				_enemyGroup.add(m);
 			}
 		}
