@@ -80,13 +80,13 @@ package com.bloodline
 			
 			var dir:Point = new Point(0, 0);
 			
-			if (FlxG.keys.LEFT || FlxG.keys.A) {
+			if (FlxG.keys.LEFT || FlxG.keys.A || FlxG.keys.Q) {
 				dir.x = -1;
 			} else if (FlxG.keys.RIGHT || FlxG.keys.D) {
 				dir.x = 1;
 			}
 			
-			if (FlxG.keys.UP || FlxG.keys.W) {
+			if (FlxG.keys.UP || FlxG.keys.W || FlxG.keys.Z) {
 				dir.y = -1;
 			} else if (FlxG.keys.DOWN || FlxG.keys.S) {
 				dir.y = 1;
