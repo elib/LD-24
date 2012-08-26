@@ -165,7 +165,13 @@ package com.bloodline
 				_player.health = FlxG.scores[Bloodline.HITPOINT_PLACE];
 				
 				var listOfLists:Array = (FlxG.scores[Bloodline.LISTS_PLACE] as Array);
-				(listOfLists[listOfLists.length - 1] as Array).push(_player);
+				(listOfLists[listOfLists.length - 1] as Array).push(
+					[
+						FlxG.scores[Bloodline.STRENGTH_PLACE], 
+						FlxG.scores[Bloodline.DEFENSE_PLACE],
+						FlxG.scores[Bloodline.SPEED_PLACE],
+					]
+				);
 			}
 			
 			_directionChoices = [DecisionData.DEF_CHOICE, DecisionData.SPD_CHOICE, DecisionData.STR_CHOICE];

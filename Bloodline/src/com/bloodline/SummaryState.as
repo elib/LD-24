@@ -16,7 +16,7 @@ package com.bloodline
 		{
 			super.create();
 			
-			var lineage:Lineage = new Lineage();
+			var lineage:Lineage = new Lineage(_good);
 			this.add(lineage);
 			
 			var txt:FlxText = new FlxText(0, FlxG.height / 2 - 8, 100);

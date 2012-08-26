@@ -42,18 +42,21 @@ package com.bloodline
 		}
 		
 		public function ColorSprite():void {
-			var col:uint = getColor();
+			var col:uint = GetColor(FlxG.scores[Bloodline.STRENGTH_PLACE],
+									FlxG.scores[Bloodline.DEFENSE_PLACE],
+									FlxG.scores[Bloodline.SPEED_PLACE],
+									FlxG.scores[Bloodline.GENERATION_PLACE]);
 			makeGraphic(16, 16, col);
 		}
 		
-		private function getColor():uint {
-			var r:Number = 255 * (FlxG.scores[Bloodline.STRENGTH_PLACE] / Bloodline.MAX_GENERATIONS_FLOAT);
-			var b:Number = 255 * (FlxG.scores[Bloodline.DEFENSE_PLACE] / Bloodline.MAX_GENERATIONS_FLOAT);
-			var g:Number = 255 * (FlxG.scores[Bloodline.SPEED_PLACE] / Bloodline.MAX_GENERATIONS_FLOAT);
+		public static function GetColor(str:Number, def:Number, spd:Number, gen:Number):uint {
+			var r:Number = 255 * (str / Bloodline.MAX_GENERATIONS_FLOAT);
+			var b:Number = 255 * (def / Bloodline.MAX_GENERATIONS_FLOAT);
+			var g:Number = 255 * (spd / Bloodline.MAX_GENERATIONS_FLOAT);
 			
 			
 			var hsl:Array = ColorUtil.rgbToHsl(r, g, b);
-			hsl[2] = 0.5 + (Bloodline.MAX_GENERATIONS_FLOAT - FlxG.scores[Bloodline.GENERATION_PLACE]) / (2*Bloodline.MAX_GENERATIONS_FLOAT);
+			hsl[2] = 0.5 + (Bloodline.MAX_GENERATIONS_FLOAT - gen) / (2*Bloodline.MAX_GENERATIONS_FLOAT);
 			var rgb:Array = ColorUtil.hslToRgb(hsl[0], hsl[1], hsl[2]);
 			var t:ColorTransform = new ColorTransform(1.0, 1.0, 1.0, 1.0, rgb[0], rgb[1], rgb[2]);
 			var color:uint = t.color;
