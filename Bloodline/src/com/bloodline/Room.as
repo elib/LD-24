@@ -49,6 +49,8 @@ package com.bloodline
 		
 		public var _player:Player = new Player();
 		
+		private var _flashGroup:FlxGroup = new FlxGroup();
+		
 		private var _metersGroup:FlxGroup = new FlxGroup();
 		
 		public var _chargeWeapon:HealthBar = new HealthBar(2, 1, FlxG.height - 16, 30, 14);
@@ -94,6 +96,7 @@ package com.bloodline
 			this.add(_symbolGroup);
 			this.add(_doorGroup);
 			this.add(_enemyGroup);
+			this.add(_flashGroup);
 			this.add(_player);
 			this.add(_powerupGroup);
 			this.add(_hudGroup);
@@ -394,8 +397,9 @@ package com.bloodline
 		
 		private var onlyOne:Boolean;
 		public function Attack() :void {
-			var margin:int = 200;
-			var dummy:FlxObject =  new FlxObject(_player.x - margin, _player.y - margin, _player.width + 2 * margin, _player.height + 2 * margin);
+			var margin:int = 20;
+			var dummy:Fader =  new Fader(_player.x - margin, _player.y - margin, _player.width + 2 * margin, _player.height + 2 * margin, 0xffff0000);
+			_flashGroup.add(dummy);
 			onlyOne = true;
 			FlxG.overlap(_enemyGroup, dummy, attackHitEnemy);
 		}
