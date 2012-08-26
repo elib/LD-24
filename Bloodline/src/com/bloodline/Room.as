@@ -43,7 +43,7 @@ package com.bloodline
 		
 		private var _directionChoices:Array;
 		
-		private var _player:Player = new Player();
+		public var _player:Player = new Player();
 		
 		private var _metersGroup:FlxGroup = new FlxGroup();
 		
@@ -269,8 +269,8 @@ package com.bloodline
 			FlxG.collide(_doorGroup, _player);
 			FlxG.collide(_enemyGroup, _player);
 			FlxG.collide(_enemyGroup, _enemyGroup);
-			FlxG.collide(_wallGroup, _enemyGroup);
-			FlxG.collide(_doorGroup, _enemyGroup);
+			//FlxG.collide(_wallGroup, _enemyGroup);
+			//FlxG.collide(_doorGroup, _enemyGroup);
 			FlxG.collide(_powerupGroup, _player, powerupHitPlayer);
 			
 			if (wasState != _state) {

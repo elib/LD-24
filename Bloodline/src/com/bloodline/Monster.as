@@ -1,11 +1,15 @@
 package com.bloodline 
 {
+	import flash.display.GraphicsPath;
 	import flash.geom.Point;
 	import org.flixel.*;
+	import util.TimeNotifier;
 	
 	public class Monster extends FlxSprite
 	{
 		[Embed(source = '../../../../Assets/Monsters.png')] private static var ImgMonsters:Class;
+		
+		public static const SPEED_MODIFIER:Number = 30;
 		
 		public static const MONSTER_NORMAL:uint = 0;
 		public static const MONSTER_FAST:uint = 1;
@@ -40,7 +44,7 @@ package com.bloodline
 		private static const MonsterAttributes:Array = 
 			[
 				//"normal" monster, low and high values
-				[1, 2,
+				[2, 3,
 				1, 2,
 				1, 2,
 				"normal",
@@ -61,7 +65,7 @@ package com.bloodline
 			
 		private var	strength:int = 0;
 		private var	speed:int = 0;
-		
+		private var _updatePathNotifier:TimeNotifier = new TimeNotifier(0.5 + FlxG.random() * 0.5);
 		
 		public function Monster(type:uint, p:Point) 
 		{
@@ -73,6 +77,9 @@ package com.bloodline
 			addAnimation("slow", [2]);
 			
 			setType(type);
+			updatePath();
+			
+			_updatePathNotifier.NotifyMe();
 		}
 		
 		private function getRandBetweenInclusive(a:int, b:int):int {
@@ -90,6 +97,27 @@ package com.bloodline
 			play(info[ANIMATION]);
 			width = info[BBX];
 			height = info[BBY];
+			offset.x = 16 - info[BBX] / 2;
+			offset.y = 16 - info[BBY] / 2;
+		}
+		
+		override public function update():void 
+		{
+			super.update();
+			if (_updatePathNotifier.Notify) {
+				updatePath();
+				_updatePathNotifier.NotifyMe();
+			}
+		}
+		
+		private function updatePath():void {
+			var player:Player = (FlxG.state as Room)._player;
+			var nodes:Array = [new FlxPoint(player.x, player.y)];
+			if (path) {
+				stopFollowingPath(true);
+			}
+			
+			followPath(new FlxPath(nodes), speed * SPEED_MODIFIER, PATH_FORWARD, true);
 		}
 	}
 }
