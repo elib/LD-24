@@ -87,8 +87,10 @@ package com.bloodline
 			if (FlxG.keys.justPressed("X")) {
 				if (!_isShotReady) {
 					//play CLICK sound!
+					FlxG.play(SndAttackFail);
 				} else {
 					//"attack"
+					FlxG.play(SndAttack);
 					(FlxG.state as Room).Attack();
 					_isShotReady = false;
 					var time:Number = 2 * (1 - FlxG.scores[Bloodline.SPEED_PLACE] / Bloodline.MAX_GENERATIONS_FLOAT);
