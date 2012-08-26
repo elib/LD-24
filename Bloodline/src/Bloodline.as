@@ -23,6 +23,7 @@ package
 		public static const STARTING_HITPOINTS:int = 10;
 		
 		public static const MAX_GENERATIONS:int = 15;
+		public static const MAX_GENERATIONS_FLOAT:Number = MAX_GENERATIONS;
 		
 		public function Bloodline()
 		{
