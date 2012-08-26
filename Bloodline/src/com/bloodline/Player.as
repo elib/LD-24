@@ -5,9 +5,13 @@ package com.bloodline
 	import flash.geom.Point;
 	import org.flixel.*;
 	import util.ColorUtil;
+	import util.TimeNotifier;
 	
 	public class Player extends FlxSprite
 	{
+		[Embed(source = '../../../../Assets/Sounds/attack.mp3')] private static var SndAttack:Class;
+		[Embed(source = '../../../../Assets/Sounds/attack_fail.mp3')] private static var SndAttackFail:Class;
+		
 		private static const ACCEL_RATE:Number = 10000;
 		private static const DRAG_RATE:Number = 300;
 		private static const MAX_VEL:Number = 100;
@@ -19,6 +23,9 @@ package com.bloodline
 		}
 		
 		private var _interActive:Boolean = false;
+		
+		private var _reloadTimer:TimeNotifier = new TimeNotifier();
+		private var _isShotReady:Boolean = true;
 		
 		public function Player() 
 		{
@@ -58,6 +65,11 @@ package com.bloodline
 				return;
 			}
 			
+			if (_reloadTimer.Notify) {
+				_isShotReady = true;
+				//play RELOAD sound
+			}
+			
 			var dir:Point = new Point(0, 0);
 			
 			if (FlxG.keys.LEFT || FlxG.keys.A) {
@@ -70,6 +82,18 @@ package com.bloodline
 				dir.y = -1;
 			} else if (FlxG.keys.DOWN || FlxG.keys.S) {
 				dir.y = 1;
+			}
+			
+			if (FlxG.keys.justPressed("X")) {
+				if (!_isShotReady) {
+					//play CLICK sound!
+				} else {
+					//"attack"
+					(FlxG.state as Room).Attack();
+					_isShotReady = false;
+					var time:Number = 2 * (1 - FlxG.scores[Bloodline.SPEED_PLACE] / Bloodline.MAX_GENERATIONS_FLOAT);
+					_reloadTimer.NotifyMe(time);
+				}
 			}
 			
 			if(dir.length > 0) {

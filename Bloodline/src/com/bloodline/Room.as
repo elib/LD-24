@@ -7,6 +7,10 @@ package com.bloodline
 	import util.TimeNotifier;
 	public class Room extends FlxState
 	{
+		[Embed(source = '../../../../Assets/Sounds/door_open.mp3')] private static var SndDoorOpen:Class;
+		[Embed(source = '../../../../Assets/Sounds/door_close.mp3')] private static var SndDoorClose:Class;
+		[Embed(source = '../../../../Assets/Sounds/powerup_get.mp3')] private static var SndPowerupGet:Class;
+		
 		public static const DIR_NORTH:uint 		= 0;
 		public static const DIR_EAST:uint 		= 1;
 		public static const DIR_SOUTH:uint 		= 2;
@@ -54,7 +58,11 @@ package com.bloodline
 			
 			(_doorGroup.members[_entranceDir] as Doorway).Open = false;
 			
-			//PLAY SOUND HERE KTHX
+			if (shouldOpen) {
+				FlxG.play(SndDoorOpen);
+			} else {
+				FlxG.play(SndDoorClose);
+			}
 		}
 		
 		public function Room(initialDir:uint, lastChoice:uint) 
@@ -280,6 +288,7 @@ package com.bloodline
 		
 		private function powerupHitPlayer(powerupObj:FlxObject, playerObj:FlxObject):void {
 			powerupObj.kill();
+			FlxG.play(SndPowerupGet);
 			FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] += 1;
 			(_metersGroup.members[_latestChoice] as HealthBar).Amount = FlxG.scores[Bloodline.STRENGTH_PLACE + _latestChoice] / Bloodline.MAX_GENERATIONS_FLOAT;
 			(_metersGroup.members[_latestChoice] as HealthBar).Flicker();
@@ -359,6 +368,22 @@ package com.bloodline
 			_hudGroup.add(_genTxt);
 			_hudGroup.add(_popTxt);
 			_hudGroup.add(_metersGroup);
+		}
+		
+		private var onlyOne:Boolean;
+		public function Attack() :void {
+			var margin:int = 4;
+			var dummy:FlxObject =  new FlxObject(_player.x - margin, _player.y - margin, _player.width + 2 * margin, _player.height + 2 * margin);
+			onlyOne = true;
+			FlxG.overlap(_enemyGroup, dummy, attackHitEnemy);
+		}
+		
+		private function attackHitEnemy(obj:FlxObject, dummy:FlxObject) :void {
+			if (onlyOne) {
+				var power:int = int((10 * FlxG.scores[Bloodline.STRENGTH_PLACE] / Bloodline.MAX_GENERATIONS_FLOAT) + 1);
+				obj.hurt(power);
+				onlyOne = false;
+			}
 		}
 	}
 }
