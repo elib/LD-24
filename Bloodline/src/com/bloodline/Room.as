@@ -11,6 +11,8 @@ package com.bloodline
 		[Embed(source = '../../../../Assets/Sounds/door_close.mp3')] private static var SndDoorClose:Class;
 		[Embed(source = '../../../../Assets/Sounds/powerup_get.mp3')] private static var SndPowerupGet:Class;
 		
+		private const margin:int = 10;
+		
 		public static const DIR_NORTH:uint 		= 0;
 		public static const DIR_EAST:uint 		= 1;
 		public static const DIR_SOUTH:uint 		= 2;
@@ -323,8 +325,15 @@ package com.bloodline
 		private function enemyHitPlayer(enemyObj:FlxObject, playerObj:FlxObject):void {
 			var en:Monster = enemyObj as Monster;
 			if (en.canHurt) {
-				if(!playerObj.flickering) {
-					playerObj.hurt(en.strength);
+				if (!playerObj.flickering) {
+					//use the chance dictated by the blue power
+					if (FlxG.random() < FlxG.scores[Bloodline.DEFENSE_PLACE] / Bloodline.MAX_GENERATIONS_FLOAT) {
+						//fire a cool event
+						var dummy:Fader =  new Fader(_player.x - margin, _player.y - margin, _player.width + 2 * margin, _player.height + 2 * margin, 0xff0000ff);
+						_flashGroup.add(dummy);
+					} else {
+						playerObj.hurt(en.strength);
+					}
 				}
 				en.canHurt = false;
 			}
@@ -408,8 +417,6 @@ package com.bloodline
 		private function setupHud() : void {
 			setTexts();
 			
-			const margin:int = 0;
-			
 			_genTxt.setFormat(null, 8, 0xff000000);
 			_popTxt.setFormat(null, 8, 0xff000000);
 			_popTxt.y = _genTxt.y + _genTxt.height + margin;
@@ -431,7 +438,6 @@ package com.bloodline
 		
 		private var onlyOne:Boolean;
 		public function Attack() :void {
-			var margin:int = 20;
 			var dummy:Fader =  new Fader(_player.x - margin, _player.y - margin, _player.width + 2 * margin, _player.height + 2 * margin, 0xffff0000);
 			_flashGroup.add(dummy);
 			onlyOne = true;
