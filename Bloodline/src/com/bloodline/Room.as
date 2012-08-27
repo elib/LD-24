@@ -94,14 +94,15 @@ package com.bloodline
 			var bgsprite:Background = new Background();
 			this.add(bgsprite);
 			
+			this.add(_flashGroup);
 			this.add(_wallGroup);
 			this.add(_symbolGroup);
 			this.add(_doorGroup);
 			if (FlxG.scores[Bloodline.GENERATION_PLACE] == Bloodline.MAX_GENERATIONS) {
 				_symbolGroup.visible = false;
 			}
+			
 			this.add(_enemyGroup);
-			this.add(_flashGroup);
 			this.add(_player);
 			this.add(_powerupGroup);
 			this.add(_hudGroup);

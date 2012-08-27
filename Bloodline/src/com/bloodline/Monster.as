@@ -39,7 +39,7 @@ package com.bloodline
 				[3, 0, 0],
 				[2, 2, 0],
 				[2, 4, 0],
-				[0, 8, 0], //5
+				[0, 6, 0], //5
 				[0, 0, 1], 
 				[2, 0, 1],
 				[0, 0, 2],
@@ -48,7 +48,8 @@ package com.bloodline
 				[1, 0, 0],
 				[5, 0, 0],
 				[0, 0, 4],
-				[3, 10, 3] //14
+				[3, 10, 3],
+				[0, 0, 5] //15
 			];
 		
 		private static const MonsterAttributes:Array = 
@@ -56,19 +57,19 @@ package com.bloodline
 				//"normal" monster, low and high values
 				[2, 3,
 				1, 2,
-				1, 2,
+				2, 2,
 				"normal",
 				16, 16],
 				//"fast" monster, low and high values
 				[4, 6,
 				1, 1,
-				1, 2,
+				1, 1,
 				"fast",
 				8, 8],
 				//"slow" monster, low and high values
 				[1, 1,
 				3, 6,
-				2, 4,
+				4, 6,
 				"slow",
 				32, 32]
 			];

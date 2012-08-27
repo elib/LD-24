@@ -4,7 +4,7 @@ package com.bloodline
 	import util.TimeNotifier;
 	public class Fader extends FlxSprite
 	{
-		private var _fadeTimer:TimeNotifier = new TimeNotifier(2);
+		private var _fadeTimer:TimeNotifier = new TimeNotifier(0.2);
 		public function Fader(X:Number, Y:Number, wid:Number, hei:Number, col:uint) 
 		{
 			super(X, Y);
@@ -16,7 +16,7 @@ package com.bloodline
 		{
 			super.update();
 			if (_fadeTimer.TimerFraction < 1) {
-				this.alpha = 1 - _fadeTimer.TimerFraction;
+				this.alpha = (1 - _fadeTimer.TimerFraction);
 			} else {
 				this.kill();
 			}
